@@ -1,8 +1,13 @@
 package com.azamat_komaev.crudapp.view;
 
+import com.azamat_komaev.crudapp.controller.DeveloperController;
+import com.azamat_komaev.crudapp.model.Developer;
+import com.azamat_komaev.crudapp.model.Skill;
 import com.azamat_komaev.crudapp.model.Specialty;
 import com.azamat_komaev.crudapp.model.Status;
+import com.azamat_komaev.crudapp.repository.SkillRepository;
 import com.azamat_komaev.crudapp.repository.SpecialtyRepository;
+import com.azamat_komaev.crudapp.repository.jdbc.JdbcSkillRepositoryImpl;
 import com.azamat_komaev.crudapp.repository.jdbc.JdbcSpecialtyRepositoryImpl;
 
 import java.util.*;

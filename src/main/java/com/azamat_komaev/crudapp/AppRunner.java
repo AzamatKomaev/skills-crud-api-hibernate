@@ -1,9 +1,8 @@
 package com.azamat_komaev.crudapp;
 
-import com.azamat_komaev.crudapp.util.HibernateUtil;
+import com.azamat_komaev.crudapp.service.HibernateService;
 import com.azamat_komaev.crudapp.util.ViewUtil;
 import com.azamat_komaev.crudapp.view.GenericView;
-import org.hibernate.Hibernate;
 
 public class AppRunner {
     public static void main(String[] args) {
@@ -13,7 +12,7 @@ public class AppRunner {
         """);
 
         while (true) {
-            HibernateUtil.getSessionFactory()
+            HibernateService.getInstance().getSession();
             String input = ViewUtil.askForAction();
             String[] inputParts = ViewUtil.splitInputOnEntityNameAndCommand(input, "/");
 

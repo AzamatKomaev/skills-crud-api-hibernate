@@ -23,7 +23,7 @@ public class SpecialtyController {
     }
 
     public Specialty save(String name, Status status) {
-        return null;
+        return this.specialtyService.save(new Specialty(null, name, status));
     }
 
     public Specialty update(Integer id, String name, Status status) {

@@ -1,48 +1,49 @@
 package com.azamat_komaev.crudapp.repository.jdbc;
 
-import com.azamat_komaev.crudapp.model.Specialty;
-import com.azamat_komaev.crudapp.repository.SpecialtyRepository;
+import com.azamat_komaev.crudapp.model.Skill;
+import com.azamat_komaev.crudapp.repository.SkillRepository;
 import com.azamat_komaev.crudapp.service.HibernateService;
 import jakarta.persistence.EntityManager;
 
 import java.util.*;
 
-public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
-    public JdbcSpecialtyRepositoryImpl() {
+public class JdbcSkillRepositoryImpl implements SkillRepository {
+
+    public JdbcSkillRepositoryImpl() {
     }
 
     @Override
-    public Specialty getById(Integer id) {
+    public Skill getById(Integer id) {
         EntityManager entityManager = HibernateService.getInstance().getSession();
-        return entityManager.find(Specialty.class, id);
+        return entityManager.find(Skill.class, id);
     }
 
     @Override
-    public List<Specialty> getAll() {
+    public List<Skill> getAll() {
         EntityManager entityManager = HibernateService.getInstance().getSession();
-        return entityManager.createQuery("from Specialty", Specialty.class).getResultList();
+        return entityManager.createQuery("from Skill", Skill.class).getResultList();
     }
 
     @Override
-    public Specialty save(Specialty specialty) {
-        EntityManager entityManager = HibernateService.getInstance().getSession();
-
-        entityManager.getTransaction().begin();
-        entityManager.persist(specialty);
-        entityManager.getTransaction().commit();
-
-        return specialty;
-    }
-
-    @Override
-    public Specialty update(Specialty specialty) {
+    public Skill save(Skill skill) {
         EntityManager entityManager = HibernateService.getInstance().getSession();
 
         entityManager.getTransaction().begin();
-        entityManager.persist(specialty);
+        entityManager.persist(skill);
         entityManager.getTransaction().commit();
 
-        return specialty;
+        return skill;
+    }
+
+    @Override
+    public Skill update(Skill skill) {
+        EntityManager entityManager = HibernateService.getInstance().getSession();
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(skill);
+        entityManager.getTransaction().commit();
+
+        return skill;
     }
 
     @Override
@@ -51,9 +52,10 @@ public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
 
         entityManager.getTransaction().begin();
         entityManager.
-            createQuery("delete Specialty where id=:id")
+            createQuery("delete Skill where id=:id")
             .setParameter("id", id)
             .executeUpdate();
         entityManager.getTransaction().commit();
     }
 }
+

@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
-@Entity @Table(name = "specialties")
-public class Specialty {
+@Entity @Table(name = "skills")
+public class Skill {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
@@ -13,10 +13,9 @@ public class Specialty {
     @Column @Enumerated(value = EnumType.ORDINAL)
     private Status status = Status.ACTIVE;
 
-    public Specialty() {
-    }
+    public Skill() {}
 
-    public Specialty(Integer id, String name, Status status) {
+    public Skill(Integer id, String name, Status status) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -47,23 +46,23 @@ public class Specialty {
     }
 
     @Override
+    public String toString() {
+        return "Skill{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", status=" + status +
+            '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Specialty specialty)) return false;
-        return id.equals(specialty.id) && Objects.equals(name, specialty.name) && status == specialty.status;
+        if (!(o instanceof Skill skill)) return false;
+        return id.equals(skill.id) && Objects.equals(name, skill.name) && status == skill.status;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Specialty{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", status=" + status +
-            '}';
     }
 }

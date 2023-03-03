@@ -2,8 +2,11 @@ package com.azamat_komaev.crudapp.service;
 
 import static org.junit.Assert.*;
 
+import com.azamat_komaev.crudapp.model.Developer;
+import com.azamat_komaev.crudapp.model.Skill;
 import com.azamat_komaev.crudapp.model.Specialty;
 import com.azamat_komaev.crudapp.model.Status;
+import com.azamat_komaev.crudapp.repository.DeveloperRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

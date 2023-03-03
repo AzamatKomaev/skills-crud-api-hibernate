@@ -1,5 +1,7 @@
 package com.azamat_komaev.crudapp.view;
 
+import com.azamat_komaev.crudapp.controller.SkillController;
+import com.azamat_komaev.crudapp.model.Skill;
 import com.azamat_komaev.crudapp.model.Status;
 
 import java.util.NoSuchElementException;
