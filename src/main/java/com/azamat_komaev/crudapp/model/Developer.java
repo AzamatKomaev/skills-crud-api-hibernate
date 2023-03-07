@@ -1,6 +1,8 @@
 package com.azamat_komaev.crudapp.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +16,14 @@ public class Developer {
     private String firstName;
     @Column
     private String lastName;
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(
         name = "developers_skills",
         joinColumns = {@JoinColumn(name = "developer_id")},
         inverseJoinColumns = {@JoinColumn(name = "skill_id")}
     )
     private List<Skill> skills = new ArrayList<>();
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "specialty_id")
     private Specialty specialty;
     @Column @Enumerated(value = EnumType.ORDINAL)

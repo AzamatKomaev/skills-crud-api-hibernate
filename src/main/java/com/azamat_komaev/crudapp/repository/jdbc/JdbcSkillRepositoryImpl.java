@@ -2,60 +2,74 @@ package com.azamat_komaev.crudapp.repository.jdbc;
 
 import com.azamat_komaev.crudapp.model.Skill;
 import com.azamat_komaev.crudapp.repository.SkillRepository;
-import com.azamat_komaev.crudapp.service.HibernateService;
-import jakarta.persistence.EntityManager;
+import com.azamat_komaev.crudapp.util.HibernateUtil;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
 import java.util.*;
 
 public class JdbcSkillRepositoryImpl implements SkillRepository {
-
     public JdbcSkillRepositoryImpl() {
     }
 
     @Override
     public Skill getById(Integer id) {
-        EntityManager entityManager = HibernateService.getInstance().getSession();
-        return entityManager.find(Skill.class, id);
+        try (Session session = HibernateUtil.getSession()) {
+            return session.get(Skill.class, id);
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
     public List<Skill> getAll() {
-        EntityManager entityManager = HibernateService.getInstance().getSession();
-        return entityManager.createQuery("from Skill", Skill.class).getResultList();
+        try (Session session = HibernateUtil.getSession()) {
+            return session.createQuery("from Skill", Skill.class).getResultList();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
     public Skill save(Skill skill) {
-        EntityManager entityManager = HibernateService.getInstance().getSession();
-
-        entityManager.getTransaction().begin();
-        entityManager.persist(skill);
-        entityManager.getTransaction().commit();
+        try (Session session = HibernateUtil.getSession()) {
+            session.getTransaction().begin();
+            session.save(skill);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
 
         return skill;
     }
 
     @Override
     public Skill update(Skill skill) {
-        EntityManager entityManager = HibernateService.getInstance().getSession();
-
-        entityManager.getTransaction().begin();
-        entityManager.persist(skill);
-        entityManager.getTransaction().commit();
+        try (Session session = HibernateUtil.getSession()) {
+            session.getTransaction().begin();
+            session.refresh(skill);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
 
         return skill;
     }
 
     @Override
     public void deleteById(Integer id) {
-        EntityManager entityManager = HibernateService.getInstance().getSession();
-
-        entityManager.getTransaction().begin();
-        entityManager.
-            createQuery("delete Skill where id=:id")
-            .setParameter("id", id)
-            .executeUpdate();
-        entityManager.getTransaction().commit();
+        try (Session session = HibernateUtil.getSession()) {
+            session.getTransaction().begin();
+            session.remove(session.get(Skill.class, id));
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
 

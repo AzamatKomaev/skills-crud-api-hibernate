@@ -1,9 +1,13 @@
 package com.azamat_komaev.crudapp.repository.jdbc;
 
 import com.azamat_komaev.crudapp.model.Developer;
+import com.azamat_komaev.crudapp.model.Specialty;
 import com.azamat_komaev.crudapp.repository.DeveloperRepository;
 import com.azamat_komaev.crudapp.service.HibernateService;
+import com.azamat_komaev.crudapp.util.HibernateUtil;
 import jakarta.persistence.EntityManager;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
 import java.util.*;
 
@@ -14,47 +18,72 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
 
     @Override
     public Developer getById(Integer id) {
-        EntityManager entityManager = HibernateService.getInstance().getSession();
-        return entityManager.find(Developer.class, id);
+        try (Session session = HibernateUtil.getSession()) {
+            return session.createQuery(
+             "from Developer d " +
+                "left join fetch d.skills " +
+                "left join fetch d.specialty " +
+                "where d.id = :id",
+                Developer.class
+            ).setParameter("id", id).getSingleResult();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
     public List<Developer> getAll() {
-        EntityManager entityManager = HibernateService.getInstance().getSession();
-        return entityManager.createQuery("from Developer", Developer.class).getResultList();
+        try (Session session = HibernateUtil.getSession()) {
+            return session.createQuery(
+                "from Developer d " +
+                    "left join fetch d.skills " +
+                    "left join fetch d.specialty",
+                Developer.class
+            ).getResultList();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
     public Developer save(Developer developer) {
-        EntityManager entityManager = HibernateService.getInstance().getSession();
-
-        entityManager.getTransaction().begin();
-        entityManager.persist(developer);
-        entityManager.getTransaction().commit();
+        try (Session session = HibernateUtil.getSession()) {
+            session.getTransaction().begin();
+            session.save(developer);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
 
         return developer;
     }
 
     @Override
     public Developer update(Developer developer) {
-        EntityManager entityManager = HibernateService.getInstance().getSession();
-
-        entityManager.getTransaction().begin();
-        entityManager.persist(developer);
-        entityManager.getTransaction().commit();
+        try (Session session = HibernateUtil.getSession()) {
+            session.getTransaction().begin();
+            session.refresh(developer);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
 
         return developer;
     }
 
     @Override
     public void deleteById(Integer id) {
-        EntityManager entityManager = HibernateService.getInstance().getSession();
-
-        entityManager.getTransaction().begin();
-        entityManager
-            .createQuery("delete Developer where id=:id")
-            .setParameter("id", id)
-            .executeUpdate();
-        entityManager.getTransaction().commit();
+        try (Session session = HibernateUtil.getSession()) {
+            session.getTransaction().begin();
+            session.remove(session.get(Developer.class, id));
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
