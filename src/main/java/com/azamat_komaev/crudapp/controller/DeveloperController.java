@@ -4,7 +4,7 @@ import com.azamat_komaev.crudapp.model.Developer;
 import com.azamat_komaev.crudapp.model.Skill;
 import com.azamat_komaev.crudapp.model.Specialty;
 import com.azamat_komaev.crudapp.model.Status;
-import com.azamat_komaev.crudapp.repository.jdbc.JdbcDeveloperRepositoryImpl;
+import com.azamat_komaev.crudapp.repository.hibernate.HibernateDeveloperRepositoryImpl;
 import com.azamat_komaev.crudapp.service.RepositoryService;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class DeveloperController {
     private final RepositoryService<Developer, Integer> developerService;
 
     public DeveloperController() {
-        this.developerService = new RepositoryService<>(new JdbcDeveloperRepositoryImpl());
+        this.developerService = new RepositoryService<>(new HibernateDeveloperRepositoryImpl());
     }
 
     public List<Developer> getAll() {

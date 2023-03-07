@@ -2,7 +2,7 @@ package com.azamat_komaev.crudapp.controller;
 
 import com.azamat_komaev.crudapp.model.Specialty;
 import com.azamat_komaev.crudapp.model.Status;
-import com.azamat_komaev.crudapp.repository.jdbc.JdbcSpecialtyRepositoryImpl;
+import com.azamat_komaev.crudapp.repository.hibernate.HibernateSpecialtyRepositoryImpl;
 import com.azamat_komaev.crudapp.service.RepositoryService;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public class SpecialtyController {
     private final RepositoryService<Specialty, Integer> specialtyService;
 
     public SpecialtyController() {
-        this.specialtyService = new RepositoryService<>(new JdbcSpecialtyRepositoryImpl());
+        this.specialtyService = new RepositoryService<>(new HibernateSpecialtyRepositoryImpl());
     }
 
     public List<Specialty> getAll() {

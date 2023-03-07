@@ -1,31 +1,21 @@
-package com.azamat_komaev.crudapp.repository.jdbc;
+package com.azamat_komaev.crudapp.repository.hibernate;
 
-import com.azamat_komaev.crudapp.model.Developer;
 import com.azamat_komaev.crudapp.model.Specialty;
-import com.azamat_komaev.crudapp.repository.DeveloperRepository;
-import com.azamat_komaev.crudapp.service.HibernateService;
+import com.azamat_komaev.crudapp.repository.SpecialtyRepository;
 import com.azamat_komaev.crudapp.util.HibernateUtil;
-import jakarta.persistence.EntityManager;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import java.util.*;
 
-public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
-
-    public JdbcDeveloperRepositoryImpl() {
+public class HibernateSpecialtyRepositoryImpl implements SpecialtyRepository {
+    public HibernateSpecialtyRepositoryImpl() {
     }
 
     @Override
-    public Developer getById(Integer id) {
+    public Specialty getById(Integer id) {
         try (Session session = HibernateUtil.getSession()) {
-            return session.createQuery(
-             "from Developer d " +
-                "left join fetch d.skills " +
-                "left join fetch d.specialty " +
-                "where d.id = :id",
-                Developer.class
-            ).setParameter("id", id).getSingleResult();
+            return session.get(Specialty.class, id);
         } catch (HibernateException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -33,14 +23,9 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
     }
 
     @Override
-    public List<Developer> getAll() {
+    public List<Specialty> getAll() {
         try (Session session = HibernateUtil.getSession()) {
-            return session.createQuery(
-                "from Developer d " +
-                    "left join fetch d.skills " +
-                    "left join fetch d.specialty",
-                Developer.class
-            ).getResultList();
+            return session.createQuery("from Specialty", Specialty.class).getResultList();
         } catch (HibernateException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -48,38 +33,38 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
     }
 
     @Override
-    public Developer save(Developer developer) {
+    public Specialty save(Specialty specialty) {
         try (Session session = HibernateUtil.getSession()) {
             session.getTransaction().begin();
-            session.save(developer);
+            session.save(specialty);
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
 
-        return developer;
+        return specialty;
     }
 
     @Override
-    public Developer update(Developer developer) {
+    public Specialty update(Specialty specialty) {
         try (Session session = HibernateUtil.getSession()) {
             session.getTransaction().begin();
-            session.refresh(developer);
+            session.refresh(specialty);
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
 
-        return developer;
+        return specialty;
     }
 
     @Override
     public void deleteById(Integer id) {
         try (Session session = HibernateUtil.getSession()) {
             session.getTransaction().begin();
-            session.remove(session.get(Developer.class, id));
+            session.remove(session.get(Specialty.class, id));
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();

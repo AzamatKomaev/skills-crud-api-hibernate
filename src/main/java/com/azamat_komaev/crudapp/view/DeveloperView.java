@@ -7,8 +7,8 @@ import com.azamat_komaev.crudapp.model.Specialty;
 import com.azamat_komaev.crudapp.model.Status;
 import com.azamat_komaev.crudapp.repository.SkillRepository;
 import com.azamat_komaev.crudapp.repository.SpecialtyRepository;
-import com.azamat_komaev.crudapp.repository.jdbc.JdbcSkillRepositoryImpl;
-import com.azamat_komaev.crudapp.repository.jdbc.JdbcSpecialtyRepositoryImpl;
+import com.azamat_komaev.crudapp.repository.hibernate.HibernateSkillRepositoryImpl;
+import com.azamat_komaev.crudapp.repository.hibernate.HibernateSpecialtyRepositoryImpl;
 
 import java.util.*;
 
@@ -37,7 +37,7 @@ public class DeveloperView implements GenericView {
     }
 
     private List<Skill> readAndParseSkillList() {
-        SkillRepository skillRepository = new JdbcSkillRepositoryImpl();
+        SkillRepository skillRepository = new HibernateSkillRepositoryImpl();
         System.out.print("Enter list of skill ids seperated with spaces: ");
         String[] skillsIdsString = this.scanner.nextLine().split(" ");
 
@@ -61,7 +61,7 @@ public class DeveloperView implements GenericView {
         System.out.print("Enter specialty id: ");
         Integer specialtyId = Integer.parseInt(this.scanner.nextLine());
 
-        SpecialtyRepository repository = new JdbcSpecialtyRepositoryImpl();
+        SpecialtyRepository repository = new HibernateSpecialtyRepositoryImpl();
         return repository.getById(specialtyId);
     }
 

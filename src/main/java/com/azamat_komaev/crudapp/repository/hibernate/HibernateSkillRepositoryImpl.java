@@ -1,21 +1,21 @@
-package com.azamat_komaev.crudapp.repository.jdbc;
+package com.azamat_komaev.crudapp.repository.hibernate;
 
-import com.azamat_komaev.crudapp.model.Specialty;
-import com.azamat_komaev.crudapp.repository.SpecialtyRepository;
+import com.azamat_komaev.crudapp.model.Skill;
+import com.azamat_komaev.crudapp.repository.SkillRepository;
 import com.azamat_komaev.crudapp.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import java.util.*;
 
-public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
-    public JdbcSpecialtyRepositoryImpl() {
+public class HibernateSkillRepositoryImpl implements SkillRepository {
+    public HibernateSkillRepositoryImpl() {
     }
 
     @Override
-    public Specialty getById(Integer id) {
+    public Skill getById(Integer id) {
         try (Session session = HibernateUtil.getSession()) {
-            return session.get(Specialty.class, id);
+            return session.get(Skill.class, id);
         } catch (HibernateException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -23,9 +23,9 @@ public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
     }
 
     @Override
-    public List<Specialty> getAll() {
+    public List<Skill> getAll() {
         try (Session session = HibernateUtil.getSession()) {
-            return session.createQuery("from Specialty", Specialty.class).getResultList();
+            return session.createQuery("from Skill", Skill.class).getResultList();
         } catch (HibernateException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -33,38 +33,38 @@ public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
     }
 
     @Override
-    public Specialty save(Specialty specialty) {
+    public Skill save(Skill skill) {
         try (Session session = HibernateUtil.getSession()) {
             session.getTransaction().begin();
-            session.save(specialty);
+            session.save(skill);
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
 
-        return specialty;
+        return skill;
     }
 
     @Override
-    public Specialty update(Specialty specialty) {
+    public Skill update(Skill skill) {
         try (Session session = HibernateUtil.getSession()) {
             session.getTransaction().begin();
-            session.refresh(specialty);
+            session.refresh(skill);
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
 
-        return specialty;
+        return skill;
     }
 
     @Override
     public void deleteById(Integer id) {
         try (Session session = HibernateUtil.getSession()) {
             session.getTransaction().begin();
-            session.remove(session.get(Specialty.class, id));
+            session.remove(session.get(Skill.class, id));
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
@@ -72,3 +72,4 @@ public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
         }
     }
 }
+

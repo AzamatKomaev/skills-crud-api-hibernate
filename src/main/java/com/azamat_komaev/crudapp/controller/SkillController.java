@@ -2,7 +2,7 @@ package com.azamat_komaev.crudapp.controller;
 
 import com.azamat_komaev.crudapp.model.Skill;
 import com.azamat_komaev.crudapp.model.Status;
-import com.azamat_komaev.crudapp.repository.jdbc.JdbcSkillRepositoryImpl;
+import com.azamat_komaev.crudapp.repository.hibernate.HibernateSkillRepositoryImpl;
 import com.azamat_komaev.crudapp.service.RepositoryService;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public class SkillController {
     private final RepositoryService<Skill, Integer> skillService;
 
     public SkillController() {
-        this.skillService = new RepositoryService<>(new JdbcSkillRepositoryImpl());
+        this.skillService = new RepositoryService<>(new HibernateSkillRepositoryImpl());
     }
 
     public List<Skill> getAll() {
